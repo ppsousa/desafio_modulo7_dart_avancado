@@ -1,4 +1,5 @@
 import 'package:desafio_modulo7/models/mesorregiao_model.dart';
+import 'package:mysql1/mysql1.dart';
 
 import '../database_manager.dart';
 
@@ -20,6 +21,9 @@ class MesorregiaoRepository {
       } else {
         print('Mesorregiao ${mesorregiao.nome} já existe.');
       }
+    } on MySqlException catch (m) {
+      print(m);
+      throw ('Ocorreu erro: $m');
     } on Exception catch (e) {
       print(e);
     } finally {

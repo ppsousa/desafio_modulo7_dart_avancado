@@ -4,6 +4,7 @@ import 'package:desafio_modulo7/models/municipio_model.dart';
 import 'package:desafio_modulo7/repository/mesorregiao_repository.dart';
 import 'package:desafio_modulo7/repository/microrregiao_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:mysql1/mysql1.dart';
 
 import '../database_manager.dart';
 
@@ -54,7 +55,7 @@ class MunicipioRepository {
       var buscarMunicipio = await conn
           .query('select id from municipio where id = ?', [municipio.id]);
 
-      if(buscarMunicipio.isEmpty){
+      if (buscarMunicipio.isEmpty) {
         var resultMunicipio = await conn.query(
             'insert into municipio(id, nome, microrregiaoId, estadoId)values(?, ?, ?, ?)',
             [
@@ -70,6 +71,9 @@ class MunicipioRepository {
       } else {
         print('Municipio ${municipio.nome} já existe');
       }
+    } on MySqlException catch (m) {
+      print(m);
+      throw ('Ocorreu erro: $m');
     } on Exception catch (e) {
       print(e);
     } finally {

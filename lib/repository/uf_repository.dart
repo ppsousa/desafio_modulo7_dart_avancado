@@ -3,6 +3,7 @@ import 'package:desafio_modulo7/models/regiao_model.dart';
 import 'package:desafio_modulo7/repository/municipio_repository.dart';
 import 'package:desafio_modulo7/repository/regiao_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:mysql1/mysql1.dart';
 
 import '../database_manager.dart';
 
@@ -58,7 +59,8 @@ class UfRepository {
       for (var municipio in municipios) {
         await MunicipioRepository().cadastrarMunicipio(municipio);
       }
-      await conn.close();
+    } on MySqlException catch (m) {
+      print(m);
     } on Exception catch (e) {
       print(e);
     } finally {
